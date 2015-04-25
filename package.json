@@ -1,0 +1,19 @@
+{
+  "name": "nodeSQL",
+  "version": "0.0.0",
+  "description": "Node.js MySQL Database Manager",
+  "main": "index.js",
+  "dependencies": {
+    "cookies": "~0.5.0",
+    "express": "~4.12.3",
+    "jade": "~1.9.2",
+    "querystring": "~0.2.0",
+    "mysql": "~2.5.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node index"
+  },
+  "author": "Adam Fowler",
+  "license": "MIT"
+}
