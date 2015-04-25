@@ -1,0 +1,7 @@
+textarea{
+  height : 150px;
+}
+
+.connections h3, .connections h5, .connections h6{
+  cursor : pointer;
+}
