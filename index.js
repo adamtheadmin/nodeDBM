@@ -27,6 +27,13 @@ app = express();
 //static
 app.use(express.static(__dirname + '/static'));
 
+//cors
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //sessions
 app.use(function(req, res, next){
 	req.cookies = cookies(req, res);
