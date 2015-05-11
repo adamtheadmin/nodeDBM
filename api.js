@@ -5,7 +5,8 @@
 var fs = require("fs"),
 	express = require("express"),
 	qs = require("querystring"),
-	mysql = require("mysql")
+	mysql = require("mysql"),
+	tokens = {}
 
 
 var inArray = function(n, h){
@@ -21,6 +22,17 @@ var md5 = function($str){
 	cpto.update($str);
 	return cpto.digest('hex');
 }
+
+app.get("/Login/*", function(req, res, next){
+	var $token = req.url.split('/').pop();
+	if(!($token in tokens)){
+		next();
+		return;
+	}
+	tokens[$token].name = 'Local Database';
+	req.session.connections.push(tokens[$token]);
+	res.redirect('/');
+});
 
 app.post("/API*", function(req, res) {
 	var $data = req.url.split("/").splice(2, 10),
@@ -38,6 +50,31 @@ app.post("/API*", function(req, res) {
 		    switch($method){
 		    	default:
 		    		throw new Error("No Method Selected.");
+		    	break;
+
+		    	case "createtoken":
+		    		try{
+		    			if(!('db' in $post))
+		    				throw new Error("DB not found in post");
+
+		    			if(typeof $post.db != 'object')
+		    				throw new Error("DB Not Object");
+
+			    		do var $token = md5(Math.random() * Math.random() + 'nodeDBMTokenFGT');
+			    		while($token in tokens)
+
+			    		tokens[$token] = $post.db;
+
+			    		res.json({
+			    			status : true,
+			    			token : $token
+			    		})
+		    		} catch($e){
+		    			res.json({
+		    				status : false,
+		    				reason : $e.message
+		    			})
+		    		}
 		    	break;
 
 		    	case "connect":
